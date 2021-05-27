@@ -55,6 +55,18 @@
     <button>Trigger a Global Error</button>
   </section>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+  window.TrackJS && TrackJS.install({ 
+    token: "c5baaf022ab0491f91cf310c73471005"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+
+  TrackJS.track('Testing TrackJS!');
+                        
+  </script>
+                        
+
   <script>
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
@@ -62,11 +74,115 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+
+    // Step 3 - Trying Try/Catch
+    // Step 4 - Throw and Custom Errors
+    try{
+      var op = document.querySelector('#operator');
+      var secondN = parseInt(secondNum);
+      checkDenominator(op, secondN);
+    }
+    catch(e){
+      console.log(e.message);
+      console.error(e.name);
+    }
+    finally{
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+    }
     });
+
+    function checkDenominator(op, secondN)
+    {
+      if(op == "/" && secondN == "0"){
+        throw new ArithmeticError("Cannot divide by zero");
+      }
+    }
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     // TODO - Make buttons functional
+
+    // Step 2 - Adding Buttons for Console Testing
+    // Console Log Demo
+    errorBtns[0].addEventListener('click', () => {
+      console.log("Console Log Demo");
+    });
+
+    // Console Error Demo
+    errorBtns[1].addEventListener('click', () => {
+      console.error("Console Error Demo");
+    });
+
+    // Conosle Dir
+    errorBtns[2].addEventListener('click', () => {
+      console.dir(errorBtns[2]);
+    });
+
+    // Console dirxml
+    errorBtns[3].addEventListener('click', () => {
+      console.dirxml(document.querySelector('body'));
+    });
+
+    // Console Group Start
+    errorBtns[4].addEventListener('click', () => {
+      console.group(label);
+    });
+
+    // Console Group End
+    errorBtns[5].addEventListener('click', () => {
+      console.groupEnd(label);
+    });
+
+    // Console Table
+    errorBtns[6].addEventListener('click', () => {
+      console.table([
+        {course: "CSE", number: 110},
+        {course: "CSE", number: 112}
+      ]);
+    });
+
+    // Start Timer
+    errorBtns[7].addEventListener('click', () => {
+      console.log("Time Start:");
+      console.time();
+    });
+
+    // End Timer
+    errorBtns[8].addEventListener('click', () => {
+      console.log("Time End:");
+      console.timeEnd();
+    });
+
+    // Console Trace
+    errorBtns[9].addEventListener('click', () => {
+      const one = () => { two(); };
+      const two = () => { three(); };
+      const three = () => { four(); };
+      const four = () => { console.trace(); };
+      one();
+    });
+
+    // Trigger a Global Error
+    errorBtns[10].addEventListener('click', () => {
+      window.onerror = function(message, url, line, col, error){
+        console.log("Trigger a Global Error");
+      };
+    });
+
+    /* // Step 3 - Trying Try/Catch
+    // Step 4 - Throw and Custom Errors
+    try{
+      var firstN = parseInt(firstNum);
+      var secondN = parseInt(secondNum);
+      checkNumber(firstN, secondN);
+    }
+    catch(e){
+      console.log(e.message);
+      console.error(e.name);
+    }
+    finally{
+
+    } */
+
   </script>
 </body>
 </html>
