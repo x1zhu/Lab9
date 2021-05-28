@@ -78,7 +78,7 @@
     // Step 3 - Trying Try/Catch
     // Step 4 - Throw and Custom Errors
     try{
-      var op = document.querySelector('#operator');
+      var op = document.querySelector('#operator').value;
       var secondN = parseInt(secondNum);
       checkDenominator(op, secondN);
     }
@@ -94,7 +94,7 @@
     function checkDenominator(op, secondN)
     {
       if(op == "/" && secondN == "0"){
-        throw new ArithmeticError("Cannot divide by zero");
+        throw new ReferenceError("Cannot divide by zero");
       }
     }
 
@@ -123,6 +123,7 @@
     });
 
     // Console Group Start
+    label = "Console Group";
     errorBtns[4].addEventListener('click', () => {
       console.group(label);
     });
@@ -163,9 +164,14 @@
 
     // Trigger a Global Error
     errorBtns[10].addEventListener('click', () => {
-      window.onerror = function(message, url, line, col, error){
-        console.log("Trigger a Global Error");
-      };
+      window.addEventListener('error', function() {
+        console.log('error from handler');
+      });
+      new Promise(function () {
+        throw new Error("fail");
+      }).catch(function (error) {
+        setTimeout(() => {throw new Error("Trigger a Global Error")}, 0);
+      });
     });
 
     /* // Step 3 - Trying Try/Catch
